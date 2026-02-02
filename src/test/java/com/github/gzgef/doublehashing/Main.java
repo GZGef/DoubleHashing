@@ -1,4 +1,4 @@
-package test;
+package com.github.gzgef.doublehashing;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,25 +7,37 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Главный класс для тестирования реализаций хеш-таблиц.
+ * Этот класс читает команды из входного файла и применяет их к трем различным
+ * реализациям хеш-таблиц (цепочки, линейное пробирование и двойное хеширование).
+ */
 public class Main {
 
     public static void main(String[] args) {
+        if (args.length < 2) {
+            System.err.println("Использование: java Main <входной_файл> <выходной_файл>");
+            System.exit(1);
+        }
+
         final Path pathInput = Paths.get(args[0]);
         final Path pathOutput = Paths.get(args[1]);
         final ChainHashTable chainTable = new ChainHashTable();
         final OpenAddressHashTableLP lpTable = new OpenAddressHashTableLP();
         final OpenAddressHashTableDH dhTable = new OpenAddressHashTableDH();
+
         try {
             final List<String> inputData = Files.readAllLines(pathInput);
             final List<String> outputData1 = new ArrayList<>();
             final List<String> outputData2 = new ArrayList<>();
             final List<String> outputData3 = new ArrayList<>();
+
             for (String line : inputData) {
                 if (line.indexOf(' ') == -1) {
                     line += " ";
                 }
                 System.out.println(line);
+
                 Integer value;
                 switch (line.substring(0, line.indexOf(' '))) {
                     case "add":
@@ -38,7 +50,7 @@ public class Main {
                             break;
                         } catch (NumberFormatException e) {
                             break;
-                        } catch (StringIndexOutOfBoundsException e){
+                        } catch (StringIndexOutOfBoundsException e) {
                             break;
                         }
                     case "delete":
@@ -50,7 +62,7 @@ public class Main {
                             break;
                         } catch (NumberFormatException e) {
                             break;
-                        } catch (StringIndexOutOfBoundsException e){
+                        } catch (StringIndexOutOfBoundsException e) {
                             break;
                         }
                     case "search":
@@ -77,7 +89,7 @@ public class Main {
                             break;
                         } catch (NumberFormatException e) {
                             break;
-                        } catch (StringIndexOutOfBoundsException e){
+                        } catch (StringIndexOutOfBoundsException e) {
                             break;
                         }
                     case "min":
